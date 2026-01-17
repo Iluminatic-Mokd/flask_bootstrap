@@ -170,6 +170,29 @@ def edit_car(id):
     return render_template('cars/edit_car.html',
                          title='Edit Car Page',
                          car=car)
+    
+@app.route('/cars', methods=['GET', 'POST'])
+def search_cars():
+    if request.method == 'POST':
+        keyword = request.form['brand'].lower()
+
+        result = []
+        for car in cars:
+            if keyword in car['brand'].lower():
+                result.append(car)
+
+        return render_template(
+            'cars/cars.html',
+            title='Search Result',
+            cars=result
+        )
+
+    return render_template(
+      'cars/cars.html',
+      title='Show All Cars',
+      cars=cars
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)
+
